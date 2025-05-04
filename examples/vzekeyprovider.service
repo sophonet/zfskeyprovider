@@ -1,0 +1,15 @@
+[Unit]
+Description=Web Server providing an SSL-encrypted password
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+ExecStart=/usr/bin/python3 /usr/local/bin/vzekeyprovider.py --partner_service=partner.example.com:8901 --port=8901
+WorkingDirectory=/usr/local/bin
+Restart=always
+RestartSec=5
+SyslogIdentifier=encryptedkeyserver
+
+[Install]
+WantedBy=multi-user.target
