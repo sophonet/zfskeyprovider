@@ -7,11 +7,9 @@ name = "vzekeyprovider"
 version = "0.1.0"
 description = "Server providing encrypted zfs key to partner host"
 authors = [{name = "Fabian Wenzel", email = "pypi@sky.brightspace.de"}]
-license = {text = "MIT"}
+license = "MIT"
+license-files = ["LICENSE"]
 dependencies = []
 
 [project.scripts]
 vzekeyprovider = "vzekeyprovider.main:main"
-
-[tool.setuptools.package-data]
-files = ["examples/vzekeyprovider.service", "examples/zfs-load-key.service", "README.md"]
