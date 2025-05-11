@@ -109,10 +109,8 @@ def fetch_plain_text(url):
             content_type = response.headers.get_content_type()
             if content_type == 'text/plain':
                 return response.read()
-            else:
-                logging.error("Content type is not 'text/plain': %s",
-                              content_type)
-                return None
+            logging.error("Content type is not 'text/plain': %s", content_type)
+            return None
     except urllib.error.URLError as e:
         logging.error("Failed to retrieve URL: %s", e)
         return None
