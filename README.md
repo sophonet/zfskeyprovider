@@ -1,5 +1,7 @@
 # Assistant for securely decrypting zfs drives automatically on boot
 
+![Lint Status](https://img.shields.io/badge/lint-passing-brightgreen)
+
 ## Concept
 
 ZFS has the ability to encrypt content on hard drives, which is an important aspect when
