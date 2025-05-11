@@ -1,6 +1,6 @@
 # Assistant for securely decrypting zfs drives automatically on boot
 
-![Lint Status](https://img.shields.io/badge/lint-passing-brightgreen)
+[![Lint status](https://github.com/sophonet/zfskeyprovider/actions/workflows/check.yml/badge.svg)](https://github.com/sophonet/zfskeyprovider/actions/workflows/check.yml)
 
 ## Concept
 

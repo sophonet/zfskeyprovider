@@ -33,19 +33,3 @@ jobs:
           else
             echo "issues=false" >> $GITHUB_OUTPUT
           fi
-
-      - name: Update README badge
-        run: |
-          if [ "${{ steps.flake8.outputs.issues }}" = "true" ]; then
-            sed -i 's|!\[Lint Status\](.*)|![Lint Status](https://img.shields.io/badge/lint-warning-yellow)|' README.md
-          else
-            sed -i 's|!\[Lint Status\](.*)|![Lint Status](https://img.shields.io/badge/lint-passing-brightgreen)|' README.md
-          fi
-
-      - name: Commit badge update
-        run: |
-          git config --global user.name 'github-actions'
-          git config --global user.email 'github-actions@github.com'
-          git add README.md
-          git commit -m "Update lint badge" || echo "No changes"
-          git push
