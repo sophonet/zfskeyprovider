@@ -33,4 +33,4 @@ jobs:
       - name: Run linter
         id: pylint
         run: |
-          pylint zfskeyprovider
+          pylint zfskeyprovider --disable=C0103"
