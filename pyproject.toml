@@ -10,6 +10,3 @@ authors = [{name = "Fabian Wenzel", email = "pypi@sky.brightspace.de"}]
 license = "MIT"
 license-files = ["LICENSE"]
 dependencies = []
-
-[project.scripts]
-zfskeyprovider = "zfskeyprovider.main:main"
