@@ -5,7 +5,7 @@ After=network.target
 [Service]
 Type=simple
 User=www-data
-ExecStart=/usr/bin/python3 /usr/local/bin/zfskeyprovider.py --partner-service=partner.example.com:8901 --port=8901
+ExecStart=/usr/bin/python3 /usr/local/bin/zfskeyprovider.py
 WorkingDirectory=/usr/local/bin
 Restart=always
 RestartSec=5

@@ -4,6 +4,11 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import http.client
 import logging
 from functools import partial
+import configparser
+import os
+import sys
+
+DEFAULT_CONFIG_FILE = '/etc/zfskeyprovider.conf'
 
 # HTML template for the index page (Bootstrap form)
 HTML_ENTERPASSWORD = '''
@@ -95,6 +100,9 @@ HTML_CONFIRMATION = '''
 '''
 
 class encpwdstore:
+    """ A simple class to store/retrieve the encrypted password
+        persistently for multiple http requests.
+    """
     def __init__(self, encpasswd: bytes = None):
         self.encpasswd = encpasswd
 
@@ -105,9 +113,9 @@ class encpwdstore:
         return self.encpasswd
 
 
-# Create the HTTPRequestHandler class
 class ZFSKeyRequestHandler(BaseHTTPRequestHandler):
-
+    """ HTTP request handler for ZFS key provider service.
+    """
     def __init__(self, partner_host: str, encpwdstore: encpwdstore, *args, **kwargs):
         self.partner_host = partner_host
         self.encpwdstore = encpwdstore
@@ -116,11 +124,15 @@ class ZFSKeyRequestHandler(BaseHTTPRequestHandler):
         super().__init__(*args, **kwargs)
 
 
-    # Serve the index route with the HTML form
     def do_GET(self):
+        """ Handle GET requests for the ZFS key provider service. If the path is '/password',
+            it checks if the request is from the allowed partner host and returns the encrypted password.
+            For all other paths, it serves the index page with instructions on how to use the service
+            and set the password.
+        """
         if self.path == '/password':
             client_ip = self.client_address[0]
-            if client_ip != self.partner_host:
+            if (self.partner_host is not None) and (client_ip != self.partner_host):
                 self.send_response(403)
                 self.send_header('Content-type', 'text/plain')
                 self.end_headers()
@@ -146,8 +158,10 @@ class ZFSKeyRequestHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(HTML_ENTERPASSWORD.encode('utf-8'))
 
-    # Handle the form submission to set the password
+
     def do_POST(self):
+        """ Handle POST requests to set the encrypted password.
+        """
         if self.path == '/set_password':
             content_length = int(self.headers['Content-Length'])
             post_data = self.rfile.read(content_length)
@@ -166,9 +180,11 @@ class ZFSKeyRequestHandler(BaseHTTPRequestHandler):
             self.wfile.write(HTML_CONFIRMATION.format(self.encpwdstore.get_encpasswd().decode(" utf-8")).encode('utf-8'))
 
 
-def fetch_plain_text(url):
+def fetch_plain_text(parner_service: str) -> bytes:
+    """ Fetch plain text content from a given partner service URL.
+    """
     try:
-        with urllib.request.urlopen(url) as response:
+        with urllib.request.urlopen(parner_service) as response:
             content_type = response.headers.get_content_type()
             if content_type == 'text/plain':
                 return response.read()
@@ -183,8 +199,9 @@ def fetch_plain_text(url):
         return None
 
 
-# Start the HTTP server
 def run(port: int, partner_host: str, encpasswd: bytes = None):
+    """ Run the HTTP server on the specified port.
+    """
     server_address = ('', port)
     myencpwdstore = encpwdstore(encpasswd)
     handler_class = partial(ZFSKeyRequestHandler, partner_host, myencpwdstore)
@@ -198,19 +215,33 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
     parser = argparse.ArgumentParser(description='VZE Key Provider')
-    parser.add_argument('--port', type=int, default=8901, help='Port to run the server on')
-    parser.add_argument('--partner-service', type=str, default='partner.example.com:8901', help='Partner service address')
+    parser.add_argument('--config', type=str, default=DEFAULT_CONFIG_FILE, help='Path to the configuration file')
     args = parser.parse_args()
 
-    port = args.port
-    partner_service = args.partner_service
-    partner_host = partner_service.split(':')[0]
+    config_file_name = args.config
 
-    encpasswd = fetch_plain_text(f"http://{partner_service}/password")
+    if not os.path.exists(config_file_name):
+        logging.error(f"Config file not found: %s", config_file_name)
+        sys.exit(1)
 
-    # Check if the password is already set
-    if encpasswd is not None:
-        logging.info(f'Encrypted password already set: {encpasswd.decode()}')
+    config = configparser.ConfigParser()
+    config.read(config_file_name)
+
+    if config.has_option('zfskeyprovider', 'port'):
+        port = config.getint('zfskeyprovider', 'port')
+    else:
+        port = 8901
+
+    if config.has_option('zfskeyprovider', 'partner_service'):
+        partner_service = config.get('zfskeyprovider', 'partner_service')
+        partner_host = partner_service.split(':')[0]
+        encpasswd = fetch_plain_text(f"http://{partner_service}/password")
+
+        # Check if the password is already set
+        if encpasswd is not None:
+            logging.info(f'Encrypted password already set: {encpasswd.decode()}')
+    else:
+        partner_host = None
+        encpasswd = None
 
     run(port=port, partner_host=partner_host, encpasswd=encpasswd)
-
