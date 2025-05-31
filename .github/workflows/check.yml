@@ -28,9 +28,9 @@ jobs:
       - name: Run flake8
         id: flake8
         run: |
-          flake8 zfskeyprovider --count --statistics
+          flake8 zfskeyprovider.py --count --statistics
 
       - name: Run linter
         id: pylint
         run: |
-          pylint zfskeyprovider --disable=C0103
+          pylint zfskeyprovider.py --disable=C0103
