@@ -1,13 +1,15 @@
 #!/bin/bash
 set -e
 
-# Stop and disable the service if it is running
-if systemctl is-enabled --quiet zfskeyprovider.service; then
-    systemctl disable zfskeyprovider.service || true
-fi
+for servicename in zfskeyprovider.service zfs-load-key.service; do
+    # Stop and disable the service if it is running
+    if systemctl is-enabled --quiet ${servicename}.service; then
+        systemctl disable ${servicename}.service || true
+    fi
 
-if systemctl is-active --quiet zfskeyprovider.service; then
-    systemctl stop zfskeyprovider.service || true
-fi
+    if systemctl is-active --quiet ${servicename}.service; then
+        systemctl stop ${servicename}.service || true
+    fi
+done
 
-echo "🛑 zfskeyprovider has been stopped and disabled."
+echo "🛑 zfskeyprovider services have been stopped and disabled."

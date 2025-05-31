@@ -1,0 +1,16 @@
+-s dir
+-n zfskeyprovider
+--license mit
+--architecture all
+--depends python3
+--maintainer 'Sophonet <sophonet@sky.brightspace.de>'
+--after-install packaging/postinst.sh
+--before-remove packaging/preremove.sh
+--after-remove packaging/postremove.sh
+--description 'Tools for safely providing encrypted ZFS filesystem password.'
+--url "https://github.com/sophonet/zfskeyprovider"
+--config-files /etc/zfskeyprovider.conf
+zfskeyprovider.py=/usr/bin/zfskeyprovider.py
+zfskeyprovider.service=/lib/systemd/system/zfskeyprovider.service
+zfs-load-key.service=/lib/systemd/system/zfs-load-key.service
+zfskeyprovider.conf=/etc/zfskeyprovider.conf
