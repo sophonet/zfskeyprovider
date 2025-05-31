@@ -99,7 +99,8 @@ unlocks zfs filesystems.
 <li class="list-group-item d-flex justify-content-between align-items-start">
 <div class="ms-2 me-auto">
 <div class="fw-bold">
-If not done by deb/rpm package: Enable services for the two key provider servers and the zfs-load-key.service.
+If not done by deb/rpm package: Enable services for the two key provider
+servers and the zfs-load-key.service.
 </div>
 </div>
 </li>
@@ -163,7 +164,6 @@ class ZFSKeyRequestHandler(BaseHTTPRequestHandler):
         # So we have to call super().__init__ after setting attributes.
         super().__init__(*handler_args, **handler_kwargs)
 
-
     def do_GET(self):
         """ Handle GET requests for the ZFS key provider service.
             If the path is '/password', it checks if the request is from the
@@ -199,7 +199,6 @@ class ZFSKeyRequestHandler(BaseHTTPRequestHandler):
             self.send_header('Content-type', 'text/html')
             self.end_headers()
             self.wfile.write(HTML_ENTERPASSWORD.encode('utf-8'))
-
 
     def do_POST(self):
         """ Handle POST requests to set the encrypted password.
