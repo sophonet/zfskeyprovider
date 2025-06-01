@@ -23,6 +23,7 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+# Read configuration file
 if [ -f "$CONFIG_FILE" ]; then
     source "$CONFIG_FILE"
 else
@@ -30,4 +31,5 @@ else
     exit 1
 fi
 
-curl -s http://${ZFSKEY_SERVICE}/password | base64 -d | openssl pkeyutl -decrypt -inkey ${SSL_PRIVATE_KEY} -out ${ZFSKEYFILE} && chmod 600 ${ZFSKEYFILE} && /usr/sbin/zfs load-key -a
+# Retrieve key, decrypt it, and load it into ZFS
+curl -s ${ZFSKEY_URL} | base64 -d | openssl pkeyutl -decrypt -inkey ${SSL_PRIVATE_KEY} -out ${ZFSKEYFILE} && chmod 600 ${ZFSKEYFILE} && /usr/sbin/zfs load-key -a
