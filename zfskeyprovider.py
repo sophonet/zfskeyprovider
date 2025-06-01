@@ -259,6 +259,10 @@ def run(port: int, partner_host: str, encpasswd: bytes = None):
 def parse_config():
     """ Parse the configuration file for the ZFS key provider service.
     """
+
+    if os.environ.get('ZFSKEYPROVIDER_CONFIG'):
+        config_file_name = os.environ['ZFSKEYPROVIDER_CONFIG']
+
     parser = argparse.ArgumentParser(description='VZE Key Provider')
     parser.add_argument('--config', type=str, default=DEFAULT_CONFIG_FILE,
                         help='Path to the configuration file')

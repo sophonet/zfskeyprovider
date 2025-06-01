@@ -4,6 +4,11 @@ set -euo pipefail
 
 CONFIG_FILE="/etc/zfs-load-key.conf"
 
+# Override with env variable if set
+if [[ -n "${ZFSLOADKEY_CONFIG:-}" ]]; then
+    CONFIG_FILE="$ZFSLOADKEY_CONFIG"
+fi
+
 # Parse arguments
 while [[ $# -gt 0 ]]; do
     case "$1" in
