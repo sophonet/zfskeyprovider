@@ -11,6 +11,8 @@
 --url "https://github.com/sophonet/zfskeyprovider"
 --config-files /etc/zfskeyprovider.conf
 zfskeyprovider.py=/usr/bin/zfskeyprovider.py
-zfskeyprovider.service=/lib/systemd/system/zfskeyprovider.service
-zfs-load-key.service=/lib/systemd/system/zfs-load-key.service
 zfskeyprovider.conf=/etc/zfskeyprovider.conf
+zfskeyprovider.service=/lib/systemd/system/zfskeyprovider.service
+zfs-load-key.sh=/usr/bin/zfs-load-key.sh
+zfs-load-key.conf=/etc/zfs-load-key.conf
+zfs-load-key.service=/lib/systemd/system/zfs-load-key.service

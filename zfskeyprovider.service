@@ -5,8 +5,7 @@ After=network.target
 [Service]
 Type=simple
 User=www-data
-ExecStart=/usr/bin/python3 /usr/local/bin/zfskeyprovider.py
-WorkingDirectory=/usr/local/bin
+ExecStart=/usr/bin/python3 /usr/bin/zfskeyprovider.py
 Restart=always
 RestartSec=5
 SyslogIdentifier=encryptedkeyserver

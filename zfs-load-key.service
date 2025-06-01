@@ -7,7 +7,7 @@ Before=zfs-mount.service
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/bin/sh -c 'curl -s http://partner.example.com:8901/password | base64 -d | openssl pkeyutl -decrypt -inkey /etc/ssl/private/private_key.pem -out /dev/shm/zfspwd && chmod 600 /dev/shm/zfspwd && /usr/sbin/zfs load-key -a'
+ExecStart=/usr/bin/zfs-load-key.sh
 
 [Install]
 WantedBy=zfs-mount.service
