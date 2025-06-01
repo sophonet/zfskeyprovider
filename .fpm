@@ -13,6 +13,6 @@
 zfskeyprovider.py=/usr/bin/zfskeyprovider.py
 zfskeyprovider.conf=/etc/zfskeyprovider.conf
 zfskeyprovider.service=/lib/systemd/system/zfskeyprovider.service
-zfs-load-key.sh=/usr/bin/zfs-load-key.sh
-zfs-load-key.conf=/etc/zfs-load-key.conf
-zfs-load-key.service=/lib/systemd/system/zfs-load-key.service
+zfs-load-cryptkey.sh=/usr/bin/zfs-load-cryptkey.sh
+zfs-load-cryptkey.conf=/etc/zfs-load-cryptkey.conf
+zfs-load-cryptkey.service=/lib/systemd/system/zfs-load-cryptkey.service

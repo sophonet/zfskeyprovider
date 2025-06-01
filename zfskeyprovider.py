@@ -11,7 +11,6 @@ import logging
 from functools import partial
 import configparser
 import os
-import sys
 
 DEFAULT_CONFIG_FILE = '/etc/zfskeyprovider.conf'
 
