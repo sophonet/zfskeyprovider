@@ -7,7 +7,7 @@ Before=zfs-mount.service
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/usr/bin/zfs-load-key.sh
+ExecStart=/usr/bin/zfs-load-cryptkey.sh
 
 [Install]
 WantedBy=zfs-mount.service

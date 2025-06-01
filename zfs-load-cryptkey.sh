@@ -2,11 +2,11 @@
 
 set -euo pipefail
 
-CONFIG_FILE="/etc/zfs-load-key.conf"
+CONFIG_FILE="/etc/zfs-load-cryptkey.conf"
 
 # Override with env variable if set
-if [[ -n "${ZFSLOADKEY_CONFIG:-}" ]]; then
-    CONFIG_FILE="$ZFSLOADKEY_CONFIG"
+if [[ -n "${ZFSLOADCRYPTKEY_CONFIG:-}" ]]; then
+    CONFIG_FILE="$ZFSLOADCRYPTKEY_CONFIG"
 fi
 
 # Parse arguments
