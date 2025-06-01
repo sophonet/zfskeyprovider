@@ -260,30 +260,28 @@ def parse_config():
     """ Parse the configuration file for the ZFS key provider service.
     """
 
-    if os.environ.get('ZFSKEYPROVIDER_CONFIG'):
-        config_file_name = os.environ['ZFSKEYPROVIDER_CONFIG']
-
     parser = argparse.ArgumentParser(description='VZE Key Provider')
     parser.add_argument('--config', type=str, default=DEFAULT_CONFIG_FILE,
                         help='Path to the configuration file')
     args = parser.parse_args()
 
-    config_file_name = args.config
-
-    if not os.path.exists(config_file_name):
-        logging.error("Config file not found: %s", config_file_name)
-        sys.exit(1)
-
-    config = configparser.ConfigParser()
-    config.read(config_file_name)
-
-    port = 8901
-    if config.has_option('zfskeyprovider', 'port'):
-        port = config.getint('zfskeyprovider', 'port')
-
     partner_service = None
-    if config.has_option('zfskeyprovider', 'partner_service'):
-        partner_service = config.get('zfskeyprovider', 'partner_service')
+    port = 8901
+
+    config_file_name = args.config
+    if os.environ.get('ZFSKEYPROVIDER_CONFIG'):
+        config_file_name = os.environ['ZFSKEYPROVIDER_CONFIG']
+
+    if os.path.exists(config_file_name):
+        config = configparser.ConfigParser()
+        config.read(config_file_name)
+
+        if config.has_option('zfskeyprovider', 'port'):
+            port = config.getint('zfskeyprovider', 'port')
+
+        partner_service = None
+        if config.has_option('zfskeyprovider', 'partner_service'):
+            partner_service = config.get('zfskeyprovider', 'partner_service')
 
     return port, partner_service
 

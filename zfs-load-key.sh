@@ -32,8 +32,11 @@ done
 if [ -f "$CONFIG_FILE" ]; then
     source "$CONFIG_FILE"
 else
-    echo "Missing config: $CONFIG_FILE" >&2
-    exit 1
+    # Only abort if required variables are not set
+    if [[ -z "${ZFSKEY_URL:-}" || -z "${SSL_PRIVATE_KEY:-}" || -z "${ZFSKEYFILE:-}" ]]; then
+        echo "Missing config: $CONFIG_FILE and required environment variables (ZFSKEY_URL, SSL_PRIVATE_KEY, ZFSKEYFILE) are not set." >&2
+        exit 1
+    fi
 fi
 
 # Retrieve key, decrypt it, and load it into ZFS
