@@ -11,6 +11,7 @@ import logging
 from functools import partial
 import configparser
 import os
+import sys
 
 DEFAULT_CONFIG_FILE = '/etc/zfskeyprovider.conf'
 
@@ -258,18 +259,19 @@ def run(port: int, partner_host: str, encpasswd: bytes = None):
 def parse_config():
     """ Parse the configuration file for the ZFS key provider service.
     """
-
     parser = argparse.ArgumentParser(description='VZE Key Provider')
     parser.add_argument('--config', type=str, default=DEFAULT_CONFIG_FILE,
                         help='Path to the configuration file')
     args = parser.parse_args()
 
     partner_service = None
+    config_file_name = None
     port = 8901
 
-    config_file_name = args.config
-    if os.environ.get('ZFSKEYPROVIDER_CONFIG'):
+    if os.environ.get('ZFSKEYPROVIDER_CONFIG') and '--config' not in sys.argv:
         config_file_name = os.environ['ZFSKEYPROVIDER_CONFIG']
+    else:
+        config_file_name = args.config
 
     if os.path.exists(config_file_name):
         config = configparser.ConfigParser()
