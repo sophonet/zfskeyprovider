@@ -5,12 +5,10 @@
 
 # port = 8901
 
-
-
 # Optional: The address of the identical partner service that provides the key on startup.
 # The partner host (part before port) will then be the only allowed host for making
 # requests requests.
 # If not set, the ZFS key provider will not try to get key on startup and provide
 # encrypted password requests to all clients. 
 
-# partner_service = partner.example.com:8901
+# partner_service = "partner.example.com:8901"

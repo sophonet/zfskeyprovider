@@ -9,11 +9,11 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import http.client
 import logging
 from functools import partial
-import configparser
+import tomllib
 import os
 import sys
 
-DEFAULT_CONFIG_FILE = '/etc/zfskeyprovider.conf'
+DEFAULT_CONFIG_FILE = '/etc/zfskeyprovider.toml'
 
 # HTML template for the index page (Bootstrap form)
 HTML_ENTERPASSWORD = '''

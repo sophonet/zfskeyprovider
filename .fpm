@@ -9,9 +9,9 @@
 --after-remove packaging/postremove.sh
 --description 'Tools for safely providing encrypted ZFS filesystem password.'
 --url "https://github.com/sophonet/zfskeyprovider"
---config-files /etc/zfskeyprovider.conf
+--config-files /etc/zfskeyprovider.toml
 zfskeyprovider.py=/usr/bin/zfskeyprovider.py
-zfskeyprovider.conf=/etc/zfskeyprovider.conf
+zfskeyprovider.toml=/etc/zfskeyprovider.toml
 zfskeyprovider.service=/lib/systemd/system/zfskeyprovider.service
 zfs-load-cryptkey.sh=/usr/bin/zfs-load-cryptkey.sh
 zfs-load-cryptkey.conf=/etc/zfs-load-cryptkey.conf
