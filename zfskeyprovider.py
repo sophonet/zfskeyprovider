@@ -274,8 +274,7 @@ def parse_config():
         config_file_name = args.config
 
     if os.path.exists(config_file_name):
-        config = configparser.ConfigParser()
-        config.read(config_file_name)
+        config = tomllib.load(config_file_name)
 
         if config.has_option('zfskeyprovider', 'port'):
             port = config.getint('zfskeyprovider', 'port')

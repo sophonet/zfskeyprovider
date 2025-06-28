@@ -8,8 +8,8 @@ systemctl daemon-reload
 systemctl enable zfskeyprovider.service
 
 echo "✅ zfskeyprovider has been installed."
-echo "👉 Edit /etc/zfskeyprovider.conf before starting the service:"
-echo "   sudo nano /etc/zfskeyprovider.conf"
+echo "👉 Edit /etc/zfskeyprovider.toml before starting the service:"
+echo "   sudo nano /etc/zfskeyprovider.toml"
 echo "Then start the service with:"
 echo "   sudo systemctl start zfskeyprovider"
 echo "👉 On ZFS system, edit zfs-load-cryptkey.conf before enabling service:"
