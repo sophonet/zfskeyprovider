@@ -13,7 +13,7 @@ import tomllib
 import os
 import sys
 
-DEFAULT_CONFIG_FILE = '/etc/zfskeyprovider.toml'
+DEFAULT_CONFIG_PATH = '/etc/zfskeyprovider.toml'
 
 # HTML template for the index page (Bootstrap form)
 HTML_ENTERPASSWORD = '''
@@ -260,21 +260,22 @@ def parse_config():
     """ Parse the configuration file for the ZFS key provider service.
     """
     parser = argparse.ArgumentParser(description='VZE Key Provider')
-    parser.add_argument('--config', type=str, default=DEFAULT_CONFIG_FILE,
+    parser.add_argument('--config', type=str, default=DEFAULT_CONFIG_PATH,
                         help='Path to the configuration file')
     args = parser.parse_args()
 
     partner_service = None
-    config_file_name = None
+    config_path = None
     port = 8901
 
     if os.environ.get('ZFSKEYPROVIDER_CONFIG') and '--config' not in sys.argv:
-        config_file_name = os.environ['ZFSKEYPROVIDER_CONFIG']
+        config_path = os.environ['ZFSKEYPROVIDER_CONFIG']
     else:
-        config_file_name = args.config
+        config_path = args.config
 
-    if os.path.exists(config_file_name):
-        config = tomllib.load(config_file_name)
+    if os.path.exists(config_path):
+        with open(config_path, 'rb') as config_file:
+            config = tomllib.load(config_file)
 
         if config.has_option('zfskeyprovider', 'port'):
             port = config.getint('zfskeyprovider', 'port')
