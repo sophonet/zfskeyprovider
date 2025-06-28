@@ -277,12 +277,16 @@ def parse_config():
         with open(config_path, 'rb') as config_file:
             config = tomllib.load(config_file)
 
-        if config.has_option('zfskeyprovider', 'port'):
-            port = config.getint('zfskeyprovider', 'port')
+        assert ('zfskeyprovider' in config), \
+            f'Config file {config_path} does not contain [zfskeyprovider].'
+
+        config = config['zfskeyprovider']
+        if 'port' in config:
+            port = config['port']
 
         partner_service = None
-        if config.has_option('zfskeyprovider', 'partner_service'):
-            partner_service = config.get('zfskeyprovider', 'partner_service')
+        if 'partner_service' in config:
+            partner_service = config['partner_service']
 
     return port, partner_service
 
